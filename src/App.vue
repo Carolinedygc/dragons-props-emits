@@ -6,30 +6,25 @@ import Dragon from './compontents/Dragon.vue';
 // state
 const dragons = ref(dragonData)
 
+function handleNameChange(newName, id){
+//  find rigtige drage ud fra id
+const correctDragon = dragons.value.find(dragon => dragon.id === id);
+
+// opdater dens navn med newName
+correctDragon.name = newName
+}
+
+
+function handleDeleteDragon(id){
+  dragons.value = dragons.value.filter(
+  dragon => dragon.id != id
+)
+}
+
 
 </script>
 
 <template>
-
-  <!-- 10. Gør nu sådan at når I ændrer dragens navn i childcomponent, bliver det opdateret i App.vue. Se de næste fem trin (11-15) -->
-
-  <!-- 11. Lav state der holder hvad dragens nye navn er og bind dette til input i <form> -->
-
-  <!-- 12. Opsæt nu en defineEmit macro og find på et custom event-navn der om lidt skal bruges -->
-
-  <!-- 13. Sørg for at form har en eventlistener der lytter efter submit og sørger for ikke at opdatere siden, hvordan gør man det? Når der submittes kaldes en funktion -->
-
-  <!-- 14.  I funktionen skal der emittes den event vi har navngivet, sørg for at medsende det nye navn OG id -->
-
-  <!-- 15: I App.vue skal der lyttes efter det nye custom event, laves en funktion der tager imod det nye navn og id og opdaterer den rigtige drage  -->
-
-  <!-- 16. Ekstra/evt: lav en mulighed for at delete dragerne i DragonComp. Så de sender en anden custom event og App.vue fjerner den relevante drage fra state - hjælp i de kommende trin. Se her: https://youtu.be/uXvypD2gPjw -->
-
-  <!-- 17. Opsæt en deleteknap og opsæt eventlistener på den der kalder en funktion: handleDelete -->
-
-  <!-- 18. handleDelete skal emitte en custom event (deleteDragon) OG sende dragens ID som payload -->
-
-  <!-- 19. I app.vue skal DragonComp nu lytte efter deleteDragon eventet og håndtere dette. Den skal bruge id'et fra den drage der skal slettes og slette den rigtige drage i listen med drager i state i App.vue. Her kan man anvende .filter() metoden -->
 
   <header>
     <h1>D&D website</h1>
@@ -39,7 +34,10 @@ const dragons = ref(dragonData)
     </h2>
   </header>
   <main>
-   <dragon :dragonProps="dragon" v-for="dragon in dragons" :key="dragon.id"
+   <dragon 
+   @nameChange="handleNameChange"
+   @deleteDragon="handleDeleteDragon"
+   :dragonProps="dragon" v-for="dragon in dragons" :key="dragon.id"
          
    > </dragon>
 
