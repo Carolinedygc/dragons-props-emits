@@ -1,47 +1,15 @@
-<script setup></script>
+<script setup>
+import dragonData from './assets/js/dragons';
+import { ref } from 'vue';
+import Dragon from './compontents/Dragon.vue';
+
+// state
+const dragons = ref(dragonData)
+
+
+</script>
 
 <template>
-  <!--  -->
-  <!-- Del 1: props -->
-  <!--  -->
-
-  <!-- 0. Se filer igennem og forstå opbygning, hvor kommer styling fra (global, lokal) osv -->
-
-  <!-- 1. Importer dragerne og gem dem i state (reactive state...hvad skal vi huske at importere for at gøre data reactive?) - de ligger i assets/dragons.js -->
-
-  <!-- 2. I App.vue i <h2> sørg for tallet indsættes dynamisk istedet for hardcodet 8-tal -->
-
-  <!-- 3. Lav nu en childcomponent: DragonComp.vue inde i "/components"-mappen - den skal se ca sådan her ud  https://prnt.sc/_NWzYDSKJ0aK  -->
-
-  <!-- 4. Importér din nye childcomponent i App.vue -->
-
-  <!-- 5. Loop igennem state med listen af drager og lav en DragonComp for hver -->
-
-  <!-- 6. Send "dragedata" fra App.vue NED til dine childcomponents - send alt data, det vil sige send drage-objektet -->
-
-  <!-- 7. I DragonComp skal I nu modtage props fra App.vue. Herefter skal I anvende dette og bygge en simpel template til dragerne, de skal som minimum indeholde id, name, Skills og vise billedet af dragen. OBS: for at "hive" data ud af props kan I:
-   - Gøre på den mest kedelige og usexede måde: 
-      <p>Den her drage hedder {{ props.dragonProps.name }} og er {{ props.dragonPoops.age }}</p>
-
-
-   - Gøre det på den FEDE måde hvor vi hiver reactive props ud (selvom vi ikke skal bruge det til noget her...):
-      import {toRefs} from "vue"; //https://vuejs.org/api/reactivity-utilities.html#torefs
-      const {name, age} = toRefs(props.dragonProps)
-      <p>Den her drage hedder {{ name }} og er {{ age }}</p>
-  -->
-
-  <!-- 8. I skal nu gøre klar til noget vi skal bruge senere. Indsæt følgende nederst i DragonComp:  
-  <form>
-    <label for="betterName">Rename to:</label>
-    <input type="text" placeholder="Better name..." id="betterName" required>
-    <input type="submit" value="Update name" />
-  </form> -->
-
-  <!-- 9. Style det grundlæggende, men brug IKKE for lang tid på styling, det KUNNE se sådan her ud: https://prnt.sc/_NWzYDSKJ0aK -->
-
-  <!--  -->
-  <!-- Del 2: emits -->
-  <!--  -->
 
   <!-- 10. Gør nu sådan at når I ændrer dragens navn i childcomponent, bliver det opdateret i App.vue. Se de næste fem trin (11-15) -->
 
@@ -67,11 +35,14 @@
     <h1>D&D website</h1>
     <h2>
       Your source for DnD dragons. Providing dragon information since 2021.<br />
-      Find info about <span>8</span> dragons here.
+      Find info about <span>{{dragons.length}}</span> dragons here.
     </h2>
   </header>
   <main>
-    <!-- Indsæt drager her... -->
+   <dragon :dragonProps="dragon" v-for="dragon in dragons" :key="dragon.id"
+         
+   > </dragon>
+
   </main>
 </template>
 
